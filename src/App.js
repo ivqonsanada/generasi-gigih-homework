@@ -5,7 +5,11 @@ import Card from './components/card'
 function App() {
   return (
     <div className="App">
-      <Card data={data} />
+      {data.map((music) => (
+        <div style={{ margin: "1em" }}>
+          <Card data={music} />
+        </div>
+      ))}
     </div>
   );
 }
