@@ -1,8 +1,9 @@
 import Card from "components/card";
 import usePlaylist from "lib/usePlaylist";
 import { useState } from "react";
+import store from "store";
 
-const Playlist = ({ data, auth, user }) => {
+const Playlist = ({ data, user }) => {
   const { handleTrackSelect, isTrackSelected, createPlaylist } = usePlaylist();
   const [form, setForm] = useState({
     name: "",
@@ -18,7 +19,7 @@ const Playlist = ({ data, auth, user }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createPlaylist({ accessToken: auth.accessToken, userId: user.id, formPayload: form });
+    createPlaylist({ accessToken: store.getState().user.accessToken, userId: user.id, formPayload: form });
   };
 
   return (

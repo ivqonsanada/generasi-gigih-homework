@@ -11,7 +11,6 @@ const loginAuthSpotify = () => {
 const getAccessTokenFromURL = () => {
   const urlSearchParams = new URLSearchParams(window.location.hash);
   const accessToken = urlSearchParams.get('#access_token');
-  localStorage.setItem('accessToken', accessToken);
   return { accessToken };
 };
 

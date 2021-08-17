@@ -1,9 +1,10 @@
 import axios from "axios"
+import { store } from "store"
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 axios.interceptors.request.use(request => {
-  const token = localStorage.getItem('accessToken');
+  const token = store.getState().user.accessToken;
   if (token) {
     request.headers.common.Authorization = `Bearer ${token}`;
   }

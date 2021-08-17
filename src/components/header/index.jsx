@@ -1,9 +1,10 @@
 import { loginAuthSpotify } from "api/auth"
 import { useState } from "react";
+import { store } from "store";
 
 const Header = ({ auth, handleSearch }) => {
   const [query, setQuery] = useState("")
-  const isAuthenticated = auth?.accessToken;
+  const isAuthenticated = store.getState().user.accessToken;
 
   const onSubmit = (e) => {
     e.preventDefault();

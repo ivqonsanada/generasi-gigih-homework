@@ -5,21 +5,23 @@ import Header from './components/header';
 import Playlist from "components/playlist";
 import initialTracks from './api/data'
 import './App.css';
+import { useDispatch } from "react-redux";
+import { login } from "store/user";
 
 function App() {
-  const [auth, setAuth] = useState(false);
   const [user, setUser] = useState({});
   const [trackList, setTrackList] = useState(initialTracks)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const payload = getAccessTokenFromURL();
     if (payload?.accessToken) {
-      setAuth(payload);
+      dispatch(login(payload.accessToken));
       getProfile().then(({ data }) => {
         setUser(data);
       });
     }
-  }, []);
+  }, [dispatch]);
 
   const handleSearch = (query) => {
     const options = {
@@ -35,9 +37,9 @@ function App() {
 
   return (
     <div className="App">
-      <Header user={user} auth={auth} handleSearch={handleSearch}></Header>
+      <Header user={user} handleSearch={handleSearch}></Header>
 
-      <Playlist data={trackList} auth={auth} user={user}></Playlist>
+      <Playlist user={user} data={trackList} ></Playlist>
     </div>
   );
 }
