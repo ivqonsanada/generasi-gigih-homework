@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createNewPlaylist as createNewPlaylistAPI, storeTracksToNewPlaylist } from "api/spotify";
 
 const usePlaylist = () => {
   const [selectedTracks, setSelectedTracks] = useState([]);
@@ -27,13 +28,24 @@ const usePlaylist = () => {
     } else {
       addTrack(track);
     }
+  };
 
+  const createPlaylist = async ({ userId, formPayload }) => {
+    return createNewPlaylistAPI(userId, formPayload)
+      .then(({ data }) => {
+        const { id: playlist_id } = data;
+        const selectedTracksUris = selectedTracks.map(e => e.uri);
+        return storeTracksToNewPlaylist(playlist_id, { uris: selectedTracksUris });
+      }).then(() => {
+        setSelectedTracks([]);
+      });
   };
 
   return {
     selectedTracks,
     isTrackSelected,
     handleTrackSelect,
+    createPlaylist
   };
 };
 

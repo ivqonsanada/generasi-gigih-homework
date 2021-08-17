@@ -11,13 +11,12 @@ function App() {
   const [user, setUser] = useState({});
   const [trackList, setTrackList] = useState(initialTracks)
 
-
   useEffect(() => {
     const payload = getAccessTokenFromURL();
-    if (payload?.access_token) {
+    if (payload?.accessToken) {
       setAuth(payload);
-      getProfile(payload.access_token).then((res) => {
-        setUser(res);
+      getProfile().then(({ data }) => {
+        setUser(data);
       });
     }
   }, []);
@@ -28,7 +27,7 @@ function App() {
       type: "track",
       limit: 12,
     };
-    getSearchTracks(auth.access_token, options).then(({ data }) => {
+    getSearchTracks(options).then(({ data }) => {
       const selectedTracks = JSON.parse(localStorage.getItem('selectedTracks')) || [];
       setTrackList([...selectedTracks, ...data.tracks.items]);
     });
@@ -38,7 +37,7 @@ function App() {
     <div className="App">
       <Header user={user} auth={auth} handleSearch={handleSearch}></Header>
 
-      <Playlist data={trackList}></Playlist>
+      <Playlist data={trackList} auth={auth} user={user}></Playlist>
     </div>
   );
 }

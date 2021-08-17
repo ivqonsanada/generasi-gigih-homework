@@ -10,7 +10,9 @@ const loginAuthSpotify = () => {
 
 const getAccessTokenFromURL = () => {
   const urlSearchParams = new URLSearchParams(window.location.hash);
-  return { access_token: urlSearchParams.get('#access_token') };
+  const accessToken = urlSearchParams.get('#access_token');
+  localStorage.setItem('accessToken', accessToken);
+  return { accessToken };
 };
 
 export { loginAuthSpotify, getAccessTokenFromURL };
