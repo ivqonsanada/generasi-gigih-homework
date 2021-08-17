@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { getAccessTokenFromURL } from "./api/auth"
 import { getProfile, getSearchTracks } from "./api/spotify"
-import Card from './components/card'
 import Header from './components/header';
-import initialData from './api/data'
+import Playlist from "components/playlist";
+import initialTracks from './api/data'
 import './App.css';
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState({});
-  const [trackList, setTrackList] = useState(initialData)
+  const [trackList, setTrackList] = useState(initialTracks)
+
 
   useEffect(() => {
     const payload = getAccessTokenFromURL();
@@ -28,7 +29,8 @@ function App() {
       limit: 12,
     };
     getSearchTracks(auth.access_token, options).then(({ data }) => {
-      setTrackList(data.tracks.items);
+      const selectedTracks = JSON.parse(localStorage.getItem('selectedTracks')) || [];
+      setTrackList([...selectedTracks, ...data.tracks.items]);
     });
   }
 
@@ -36,11 +38,7 @@ function App() {
     <div className="App">
       <Header user={user} auth={auth} handleSearch={handleSearch}></Header>
 
-      {trackList.map((music) => (
-        <div style={{ margin: "1em" }} key={music.id}>
-          <Card data={music} />
-        </div>
-      ))}
+      <Playlist data={trackList}></Playlist>
     </div>
   );
 }

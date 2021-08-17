@@ -1,10 +1,12 @@
-const Card = ({ data }) => {
+
+const Card = ({ data, handleSelect, isSelected}) => {
+  const { album } = data;
   return (
-    <div>
-      <img src={data.album.images[0].url} alt={data.album.name + ""} />
-      <h1>{data.album.name}</h1>
-      <h2>{data.album.artists[0].name}</h2>
-      <button>Select</button>
+    <div style={{ margin: "1em" }}>
+      <img src={album.images[0].url} alt={album.name + ""} />
+      <h1>{album.name}</h1>
+      <h2>{album.artists[0].name}</h2>
+      <button onClick={() => handleSelect(data)}>{ isSelected ? 'Deselect' : 'Select' }</button>
     </div>
   );
 };
