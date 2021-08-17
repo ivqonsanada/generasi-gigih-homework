@@ -1,4 +1,5 @@
 import axios from "axios";
+import "./axios";
 
 const SPOTIFY_ENDPOINT = "https://api.spotify.com/v1";
 
@@ -7,7 +8,7 @@ const getProfile = async (accessToken) => {
     headers: {
       Authorization: "Bearer " + accessToken,
     },
-  })
+  });
 };
 
 const getSearchTracks = async (accessToken, options) => {
@@ -16,7 +17,7 @@ const getSearchTracks = async (accessToken, options) => {
     headers: {
       Authorization: "Bearer " + accessToken,
     },
-  })
+  });
 };
 
 export {
