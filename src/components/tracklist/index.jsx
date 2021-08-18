@@ -1,7 +1,6 @@
 import Card from 'components/card';
 import { usePlaylist } from 'lib/usePlaylist';
 import { useState } from 'react';
-import { store } from 'store';
 import PropTypes from 'prop-types';
 import styles from './TrackList.module.css';
 
@@ -22,7 +21,6 @@ const TrackList = ({ data, user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createPlaylist({
-      accessToken: store.getState().user.accessToken,
       userId: user.id,
       formPayload: form,
     });

@@ -14,7 +14,7 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'react/react-in-jsx-scope': 'off',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/forbid-prop-types': [1, { forbid: ['any'] }],
     'jsx-a11y/label-has-associated-control': [
       'error',
@@ -26,6 +26,16 @@ module.exports = {
     ],
     'no-param-reassign': ['error', { props: false }],
     'no-console': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
   settings: {
     'import/resolver': {
