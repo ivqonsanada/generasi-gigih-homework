@@ -1,10 +1,14 @@
 import Card from 'components/card';
 import { usePlaylist } from 'lib/usePlaylist';
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import styles from './TrackList.module.css';
 
-const TrackList = ({ data, user }) => {
+interface TrackListProps {
+  data: Track[];
+  user: User;
+}
+
+const TrackList = ({ data, user }: TrackListProps) => {
   const { handleTrackSelect, isTrackSelected, createPlaylist } = usePlaylist();
   const [form, setForm] = useState({
     name: '',
@@ -13,12 +17,12 @@ const TrackList = ({ data, user }) => {
     collaborative: false,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     createPlaylist({
       userId: user.id,
@@ -29,7 +33,7 @@ const TrackList = ({ data, user }) => {
   return (
     <>
       <div className={styles.container}>
-        {data.map((track) => (
+        {data.map((track: Track) => (
           <Card
             data={track}
             key={track.uri}
@@ -45,7 +49,7 @@ const TrackList = ({ data, user }) => {
             <label htmlFor="name" style={{ paddingLeft: '40px' }}>
               Name:
             </label>
-            <input type="text" id="name" name="name" minLength="10" onChange={handleChange} />
+            <input type="text" id="name" name="name" minLength={10} onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="description">Description: </label>
@@ -53,7 +57,7 @@ const TrackList = ({ data, user }) => {
               type="text"
               id="description"
               name="description"
-              minLength="20"
+              minLength={20}
               onChange={handleChange}
             />
           </div>
@@ -64,11 +68,6 @@ const TrackList = ({ data, user }) => {
       </div>
     </>
   );
-};
-
-TrackList.propTypes = {
-  data: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired,
 };
 
 export default TrackList;

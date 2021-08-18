@@ -7,7 +7,6 @@ const IndexPage = () => {
 
   useEffect(() => {
     const isAuthenticated = !!store.getState().user.accessToken;
-    console.log(isAuthenticated);
     if (isAuthenticated) history.push('/create-playlist');
   }, [history, store.getState().user]);
 

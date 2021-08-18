@@ -1,4 +1,4 @@
-import TrackList from 'components/tracklist';
+import TrackList from 'components/track-list';
 import PropTypes from 'prop-types';
 
 const CreatePlaylistPage = ({ trackList, user }) => (
