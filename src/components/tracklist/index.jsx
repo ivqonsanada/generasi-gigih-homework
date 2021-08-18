@@ -3,7 +3,7 @@ import usePlaylist from "lib/usePlaylist";
 import { useState } from "react";
 import store from "store";
 
-const Playlist = ({ data, user }) => {
+const TrackList = ({ data, user }) => {
   const { handleTrackSelect, isTrackSelected, createPlaylist } = usePlaylist();
   const [form, setForm] = useState({
     name: "",
@@ -47,4 +47,4 @@ const Playlist = ({ data, user }) => {
   );
 };
 
-export default Playlist;
+export default TrackList;

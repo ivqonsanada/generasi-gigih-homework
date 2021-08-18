@@ -9,7 +9,7 @@ axios.interceptors.request.use(request => {
     request.headers.common.Authorization = `Bearer ${token}`;
   }
   return request
-})
+});
 
 axios.interceptors.response.use(response => {
   return response;

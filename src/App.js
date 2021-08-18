@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { getAccessTokenFromURL } from "./api/auth"
 import { getProfile, getSearchTracks } from "./api/spotify"
 import Header from './components/header';
-import Playlist from "components/playlist";
 import initialTracks from './api/data'
 import './App.css';
 import { useDispatch } from "react-redux";
 import { login } from "store/user";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import PrivateRoute from "components/private-route";
+import CreatePlaylistPage from "pages/create-playlist";
+import IndexPage from "pages";
 
 function App() {
   const [user, setUser] = useState({});
@@ -36,11 +39,17 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <Router>
       <Header user={user} handleSearch={handleSearch}></Header>
-
-      <Playlist user={user} data={trackList} ></Playlist>
-    </div>
+      <Switch>
+        <PrivateRoute exact path="/create-playlist">
+          <CreatePlaylistPage trackList={trackList} user={user} />
+        </PrivateRoute>
+        <Route exact path="/">
+          <IndexPage user={user} />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
