@@ -1,0 +1,26 @@
+.container {}
+
+.infosContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.infosContainer > * + * {
+  margin-top: 1rem;
+}
+
+.albumName {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.albumArtistName {
+  font-size: 20px;
+}
+
+.button {
+  font-size: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 8px 16px;
+}

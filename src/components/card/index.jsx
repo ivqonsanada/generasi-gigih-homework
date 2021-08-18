@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
+import styles from './Card.module.css';
 
 const Card = ({ data, handleSelect, isSelected }) => {
   const { album } = data;
   return (
-    <div>
+    <div className={styles.container}>
       <img src={album.images[0].url} alt={`${album.name}`} width="100%" />
-      <h1>{album.name}</h1>
-      <h2>{album.artists[0].name}</h2>
-      <button type="button" onClick={() => handleSelect(data)}>
-        {isSelected ? 'Deselect' : 'Select'}
-      </button>
+      <div className={styles.infosContainer}>
+        <p className={styles.albumName}>{album.name}</p>
+        <p className={styles.albumArtistName}>{album.artists[0].name}</p>
+        <button className={styles.button} type="button" onClick={() => handleSelect(data)}>
+          {isSelected ? 'Deselect' : 'Select'}
+        </button>
+      </div>
     </div>
   );
 };
