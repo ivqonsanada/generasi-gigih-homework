@@ -1,15 +1,16 @@
-import { loginAuthSpotify } from "api/auth"
-import { useState } from "react";
-import { store } from "store";
+import { loginAuthSpotify } from 'api/auth';
+import { useState } from 'react';
+import { store } from 'store';
+import PropTypes from 'prop-types';
 
-const Header = ({ auth, handleSearch }) => {
-  const [query, setQuery] = useState("")
+const Header = ({ handleSearch }) => {
+  const [query, setQuery] = useState('');
   const isAuthenticated = store.getState().user.accessToken;
 
   const onSubmit = (e) => {
     e.preventDefault();
-    handleSearch(query)
-  }
+    handleSearch(query);
+  };
   return (
     <div>
       {isAuthenticated ? (
@@ -20,23 +21,21 @@ const Header = ({ auth, handleSearch }) => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button
-            type="submit"
-            aria-label="search song"
-          >
+          <button type="submit" aria-label="search song">
             Search
           </button>
         </form>
       ) : (
-        <button
-          onClick={() => loginAuthSpotify()}
-          style={{ marginLeft: "auto" }}
-        >
+        <button type="button" onClick={() => loginAuthSpotify()} style={{ marginLeft: 'auto' }}>
           Login with Spotify
         </button>
       )}
     </div>
   );
+};
+
+Header.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
 };
 
 export default Header;
