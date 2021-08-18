@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { createNewPlaylist as createNewPlaylistAPI, storeTracksToNewPlaylist } from "api/spotify";
+import { useEffect, useState } from 'react';
+import { createNewPlaylist as createNewPlaylistAPI, storeTracksToNewPlaylist } from 'api/spotify';
 
 const usePlaylist = () => {
   const [selectedTracks, setSelectedTracks] = useState([]);
@@ -18,9 +18,7 @@ const usePlaylist = () => {
     setSelectedTracks(tempTracks);
   };
 
-  const isTrackSelected = (track) => {
-    return selectedTracks.filter((e) => e.uri === track.uri).length > 0;
-  };
+  const isTrackSelected = (track) => selectedTracks.filter((e) => e.uri === track.uri).length > 0;
 
   const handleTrackSelect = (track) => {
     if (isTrackSelected(track)) {
@@ -30,22 +28,27 @@ const usePlaylist = () => {
     }
   };
 
-  const createPlaylist = async ({ userId, formPayload }) => {
-    return createNewPlaylistAPI(userId, formPayload)
+  const createPlaylist = async ({ userId, formPayload }) =>
+    createNewPlaylistAPI(userId, formPayload)
       .then(({ data }) => {
+        // eslint-disable-next-line camelcase
         const { id: playlist_id } = data;
-        const selectedTracksUris = selectedTracks.map(e => e.uri);
-        return storeTracksToNewPlaylist(playlist_id, { uris: selectedTracksUris });
-      }).then(() => {
+        const selectedTracksUris = selectedTracks.map((e) => e.uri);
+        return storeTracksToNewPlaylist(playlist_id, {
+          uris: selectedTracksUris,
+        });
+      })
+      .then(() => {
         setSelectedTracks([]);
+        // eslint-disable-next-line no-alert
+        alert('success');
       });
-  };
 
   return {
     selectedTracks,
     isTrackSelected,
     handleTrackSelect,
-    createPlaylist
+    createPlaylist,
   };
 };
 
