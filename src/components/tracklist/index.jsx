@@ -3,6 +3,7 @@ import { usePlaylist } from 'lib/usePlaylist';
 import { useState } from 'react';
 import { store } from 'store';
 import PropTypes from 'prop-types';
+import styles from './TrackList.module.css';
 
 const TrackList = ({ data, user }) => {
   const { handleTrackSelect, isTrackSelected, createPlaylist } = usePlaylist();
@@ -29,7 +30,7 @@ const TrackList = ({ data, user }) => {
 
   return (
     <>
-      <div>
+      <div className={styles.container}>
         {data.map((track) => (
           <Card
             data={track}
