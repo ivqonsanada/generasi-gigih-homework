@@ -3,10 +3,6 @@ import 'api/axios';
 
 const SPOTIFY_ENDPOINT = 'https://api.spotify.com/v1';
 
-interface User {
-  id: string;
-}
-
 interface SearchOption {
   q: string;
   type: string;
@@ -15,13 +11,6 @@ interface SearchOption {
 
 interface Playlist {
   id: string;
-}
-
-interface PlaylistOption {
-  name: string;
-  description: string;
-  public: boolean;
-  collaborative: boolean;
 }
 
 interface PlaylistTrack {

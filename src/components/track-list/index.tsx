@@ -24,10 +24,7 @@ const TrackList = ({ data, user }: TrackListProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createPlaylist({
-      userId: user.id,
-      formPayload: form,
-    });
+    createPlaylist({ id: user.id }, form);
   };
 
   return (

@@ -10,7 +10,7 @@ const Card = ({ data, handleSelect, isSelected }: CardProps) => {
   const { album } = data;
   return (
     <div className={styles.container}>
-      <img src={album.images[0].url} alt={`${album.name}`} width="100%" />
+      <img src={album.images[0].url} alt={album.name} width="100%" />
       <div className={styles.infosContainer}>
         <p className={styles.albumName} data-testid="album-name">
           {album.name}

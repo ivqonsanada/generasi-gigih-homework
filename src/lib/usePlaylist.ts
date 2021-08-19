@@ -2,25 +2,26 @@ import { useEffect, useState } from 'react';
 import { createNewPlaylist as createNewPlaylistAPI, storeTracksToNewPlaylist } from 'api/spotify';
 
 const usePlaylist = () => {
-  const [selectedTracks, setSelectedTracks] = useState([]);
+  const [selectedTracks, setSelectedTracks] = useState<Track[]>([]);
 
   useEffect(() => {
     localStorage.setItem('selectedTracks', JSON.stringify(selectedTracks));
   }, [selectedTracks]);
 
-  const addTrack = (track) => {
+  const addTrack = (track: Track) => {
     setSelectedTracks([...selectedTracks, track]);
   };
 
-  const removeTrack = (track) => {
+  const removeTrack = (track: Track) => {
     let tempTracks = [...selectedTracks];
-    tempTracks = tempTracks.filter((e) => e.uri !== track.uri);
+    tempTracks = tempTracks.filter((e: Track) => e.uri !== track.uri);
     setSelectedTracks(tempTracks);
   };
 
-  const isTrackSelected = (track) => selectedTracks.filter((e) => e.uri === track.uri).length > 0;
+  const isTrackSelected = (track: Track) =>
+    selectedTracks.filter((e: Track) => e.uri === track.uri).length > 0;
 
-  const handleTrackSelect = (track) => {
+  const handleTrackSelect = (track: Track) => {
     if (isTrackSelected(track)) {
       removeTrack(track);
     } else {
@@ -28,15 +29,18 @@ const usePlaylist = () => {
     }
   };
 
-  const createPlaylist = async ({ userId, formPayload }) =>
-    createNewPlaylistAPI(userId, formPayload)
+  const createPlaylist = async ({ id }: User, formPayload: PlaylistOption) =>
+    createNewPlaylistAPI({ id }, formPayload)
       .then(({ data }) => {
         // eslint-disable-next-line camelcase
-        const { id: playlist_id } = data;
-        const selectedTracksUris = selectedTracks.map((e) => e.uri);
-        return storeTracksToNewPlaylist(playlist_id, {
-          uris: selectedTracksUris,
-        });
+        const playlistId = data.id;
+        const selectedTracksUris = selectedTracks.map((e: Track) => e.uri);
+        return storeTracksToNewPlaylist(
+          { id: playlistId },
+          {
+            uris: selectedTracksUris,
+          }
+        );
       })
       .then(() => {
         setSelectedTracks([]);

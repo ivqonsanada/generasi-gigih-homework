@@ -16,3 +16,10 @@ interface Track {
 interface User {
   id: string;
 }
+
+interface PlaylistOption {
+  name: string;
+  description: string;
+  public: boolean;
+  collaborative: boolean;
+}

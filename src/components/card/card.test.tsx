@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import Card from "components/card";
+import { render, screen } from '@testing-library/react';
+import Card from 'components/card';
 
 const track = {
   album: {
@@ -30,7 +30,7 @@ const track = {
   uri: 'spotify:track:2s0t2naULr7BLrLGjoKu98',
 };
 
-test("card component rendered properly", async () => {
+test('card component rendered properly', async () => {
   render(
     <Card
       data={track}
@@ -38,11 +38,11 @@ test("card component rendered properly", async () => {
       handleSelect={(uri) => {
         console.log(uri);
       }}
-      isSelected={true}
+      isSelected
     />
   );
 
-  const albumName = screen.getByTestId("album-name");
+  const albumName = screen.getByTestId('album-name');
   const selectTrackButton = screen.getByText(/Select/i);
   expect(albumName).toBeVisible();
   expect(albumName).toHaveTextContent(track.album.name);
