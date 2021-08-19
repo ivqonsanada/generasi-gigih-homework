@@ -1,12 +1,12 @@
-import styles from './Card.module.css';
+import styles from './TrackCard.module.css';
 
-interface CardProps {
+interface TrackCardProps {
   data: Track;
   handleSelect: (track: Track) => void;
   isSelected: boolean;
 }
 
-const Card = ({ data, handleSelect, isSelected }: CardProps) => {
+const TrackCard = ({ data, handleSelect, isSelected }: TrackCardProps) => {
   const { album } = data;
   return (
     <div className={styles.container}>
@@ -26,4 +26,4 @@ const Card = ({ data, handleSelect, isSelected }: CardProps) => {
   );
 };
 
-export default Card;
+export default TrackCard;

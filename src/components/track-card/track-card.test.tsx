@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Card from 'components/card';
+import TrackCard from 'components/track-card';
 
 const track = {
   album: {
@@ -32,7 +32,7 @@ const track = {
 
 test('card component rendered properly', async () => {
   render(
-    <Card
+    <TrackCard
       data={track}
       key={track.uri}
       handleSelect={(uri) => {

@@ -1,4 +1,4 @@
-import Card from 'components/card';
+import TrackCard from 'components/track-card';
 import { usePlaylist } from 'lib/usePlaylist';
 import React, { useState } from 'react';
 import styles from './TrackList.module.css';
@@ -31,7 +31,7 @@ const TrackList = ({ data, user }: TrackListProps) => {
     <>
       <div className={styles.container}>
         {data.map((track: Track) => (
-          <Card
+          <TrackCard
             data={track}
             key={track.uri}
             handleSelect={handleTrackSelect}
