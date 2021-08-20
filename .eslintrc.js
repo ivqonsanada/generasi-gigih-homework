@@ -1,15 +1,15 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2021: true
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'plugin:prettier/recommended'],
+  extends: ['airbnb'],
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['react'],
   rules: {
@@ -20,13 +20,16 @@ module.exports = {
       'error',
       {
         required: {
-          some: ['nesting', 'id'],
-        },
-      },
+          some: ['nesting', 'id']
+        }
+      }
     ],
     'no-param-reassign': ['error', { props: false }],
     'no-console': 'off',
     'no-undef': 'off',
+    'object-curly-newline': 0,
+    'implicit-arrow-linebreak': 0,
+    'comma-dangle': ['error', 'never'],
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -34,16 +37,16 @@ module.exports = {
         js: 'never',
         jsx: 'never',
         ts: 'never',
-        tsx: 'never',
-      },
-    ],
+        tsx: 'never'
+      }
+    ]
   },
   settings: {
     'import/resolver': {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        moduleDirectory: ['node_modules', 'src/'],
-      },
-    },
-  },
+        moduleDirectory: ['node_modules', 'src/']
+      }
+    }
+  }
 };
