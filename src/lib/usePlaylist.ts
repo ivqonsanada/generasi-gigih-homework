@@ -1,21 +1,26 @@
-import { useEffect, useState } from 'react';
-import { createNewPlaylist as createNewPlaylistAPI, storeTracksToNewPlaylist } from 'api/spotify';
+import { useToast } from '@chakra-ui/react';
+import {
+  createNewPlaylist as createNewPlaylistAPI,
+  storeTracksToNewPlaylist
+} from 'api/spotify';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { clearSelectedTracks, updateSelectedTracks } from 'store/track';
 
 const usePlaylist = () => {
-  const [selectedTracks, setSelectedTracks] = useState<Track[]>([]);
-
-  useEffect(() => {
-    localStorage.setItem('selectedTracks', JSON.stringify(selectedTracks));
-  }, [selectedTracks]);
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const { selectedTracks } = useSelector(
+    (state: RootStateOrAny) => state.track
+  );
 
   const addTrack = (track: Track) => {
-    setSelectedTracks([...selectedTracks, track]);
+    dispatch(updateSelectedTracks([...selectedTracks, track]));
   };
 
   const removeTrack = (track: Track) => {
     let tempTracks = [...selectedTracks];
     tempTracks = tempTracks.filter((e: Track) => e.uri !== track.uri);
-    setSelectedTracks(tempTracks);
+    dispatch(updateSelectedTracks(tempTracks));
   };
 
   const isTrackSelected = (track: Track) =>
@@ -32,27 +37,28 @@ const usePlaylist = () => {
   const createPlaylist = async ({ id }: User, formPayload: PlaylistOption) =>
     createNewPlaylistAPI({ id }, formPayload)
       .then(({ data }) => {
-        // eslint-disable-next-line camelcase
         const playlistId = data.id;
         const selectedTracksUris = selectedTracks.map((e: Track) => e.uri);
         return storeTracksToNewPlaylist(
           { id: playlistId },
-          {
-            uris: selectedTracksUris,
-          }
+          { uris: selectedTracksUris }
         );
       })
       .then(() => {
-        setSelectedTracks([]);
-        // eslint-disable-next-line no-alert
-        alert('success');
+        dispatch(clearSelectedTracks());
+        toast({
+          title: 'Playlist created.',
+          description: 'All selected tracks included.',
+          status: 'success',
+          duration: 9000,
+          isClosable: true
+        });
       });
 
   return {
-    selectedTracks,
     isTrackSelected,
     handleTrackSelect,
-    createPlaylist,
+    createPlaylist
   };
 };
 
