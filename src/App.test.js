@@ -9,6 +9,6 @@ test('renders react app properly', () => {
       <App />
     </Provider>
   );
-  const title = screen.getByText('You need to login before you can access the app.');
+  const title = screen.getByText('Lets music make your day');
   expect(title).toBeVisible();
 });

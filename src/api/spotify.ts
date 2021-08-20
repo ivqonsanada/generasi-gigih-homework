@@ -1,5 +1,4 @@
 import axios from 'axios';
-import 'api/axios';
 
 const SPOTIFY_ENDPOINT = 'https://api.spotify.com/v1';
 
@@ -20,7 +19,11 @@ interface PlaylistTrack {
 const getProfile = async () => axios.get(`${SPOTIFY_ENDPOINT}/me`);
 
 const getSearchTracks = async ({ q, type, limit }: SearchOption) => {
-  const params = new URLSearchParams({ q, type, limit: limit.toString() }).toString();
+  const params = new URLSearchParams({
+    q,
+    type,
+    limit: limit.toString()
+  }).toString();
   return axios.get(`${SPOTIFY_ENDPOINT}/search?${params}`);
 };
 

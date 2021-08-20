@@ -1,8 +1,5 @@
 interface Track {
   album: {
-    artists: {
-      name: string;
-    }[];
     images: {
       height: number;
       url: string;
@@ -10,6 +7,10 @@ interface Track {
     }[];
     name: string;
   };
+  artists: {
+    name: string;
+  }[];
+  name: string;
   uri: string;
 }
 

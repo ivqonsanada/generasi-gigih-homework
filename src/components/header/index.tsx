@@ -1,47 +1,69 @@
 import { loginAuthSpotify } from 'api/auth';
-import React, { useState } from 'react';
-import { store } from 'store';
-import { Button, Center, Flex, Input } from '@chakra-ui/react';
+import {
+  Button,
+  Center,
+  Heading,
+  HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spacer,
+  Text,
+  useMediaQuery
+} from '@chakra-ui/react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import SearchBar from 'components/search-bar';
+import UserProfile from 'components/user-profile';
+import { Icon } from '@iconify/react';
+import { logout } from 'store/user';
 
-interface HeaderProps {
-  handleSearch: (query: string) => void;
-}
+const Header = () => {
+  const { isAuthenticated } = useSelector((state: RootStateOrAny) => state.user);
+  const [isDesktop] = useMediaQuery('(min-width: 1280px)');
+  const dispatch = useDispatch();
 
-const Header = ({ handleSearch }: HeaderProps) => {
-  const [query, setQuery] = useState('');
-  const isAuthenticated = store.getState().user.accessToken;
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleSearch(query);
-  };
   return (
-    <div>
+    <Center bg="blackAlpha.900" h="100px" color="gray.300" padding="20px">
       {isAuthenticated ? (
-        <form onSubmit={onSubmit}>
-          <Center bg="white" h="100px" color="white">
-            <Flex>
-              <Input
-                variant="outline"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="find your true music"
-                color="gray.700"
-                type="text"
-              />
-
-              <Button type="submit" colorScheme="teal" size="md">
-                Search
-              </Button>
-            </Flex>
-          </Center>
-        </form>
+        <>
+          <HStack spacing="24px">
+            <Heading>musica</Heading>
+            <SearchBar />
+          </HStack>
+          <Spacer />
+          <Menu colorScheme="blackAlpha">
+            <MenuButton
+              as={isDesktop ? Button : IconButton}
+              aria-label="Options"
+              variant="ghost"
+              _hover={{ bg: 'gray.600' }}
+              _expanded={{ bg: 'gray.900' }}
+              _focus={{ bg: 'gray.600' }}
+            >
+              <UserProfile />
+            </MenuButton>
+            <MenuList bg="gray.900" borderWidth="2px" borderColor="gray.700">
+              <MenuItem _hover={{ bg: 'gray.700' }} _focus={{ bg: 'gray.700' }} onClick={() => dispatch(logout())}>
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </>
       ) : (
-        <button type="button" onClick={() => loginAuthSpotify()} style={{ marginLeft: 'auto' }}>
-          Login with Spotify
-        </button>
+        <>
+          <Heading>musica</Heading>
+          <Spacer />
+          <Button colorScheme="green" size="md" onClick={() => loginAuthSpotify()}>
+            <HStack>
+              <Icon icon="akar-icons:spotify-fill" inline />
+              <Text>Login with Spotify</Text>
+            </HStack>
+          </Button>
+        </>
       )}
-    </div>
+    </Center>
   );
 };
 

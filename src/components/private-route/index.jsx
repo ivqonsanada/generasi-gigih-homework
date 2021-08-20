@@ -1,31 +1,30 @@
 import { Redirect, Route } from 'react-router-dom';
-import { store } from 'store';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const PrivateRoute = ({ children, ...props }) => {
-  const isAuthenticated = !!store.getState().user?.accessToken;
+  const { accessToken } = useSelector((state) => state.user);
+  const isAuthenticated = accessToken;
   return (
     <Route
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
-      render={({ location }) =>
-        isAuthenticated ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/',
-              state: { from: location },
-            }}
-          />
-        )
-      }
+      render={({ location }) => (isAuthenticated ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/',
+            state: { from: location }
+          }}
+        />
+      ))}
     />
   );
 };
 
 PrivateRoute.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired
 };
 
 export default PrivateRoute;
