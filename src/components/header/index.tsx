@@ -25,45 +25,52 @@ const Header = () => {
   const dispatch = useDispatch();
 
   return (
-    <Center bg="blackAlpha.900" h="100px" color="gray.300" padding="20px">
-      {isAuthenticated ? (
-        <>
-          <HStack spacing="24px">
-            <Heading>musica</Heading>
-            <SearchBar />
-          </HStack>
-          <Spacer />
-          <Menu colorScheme="blackAlpha">
-            <MenuButton
-              as={isDesktop ? Button : IconButton}
-              aria-label="Options"
-              variant="ghost"
-              _hover={{ bg: 'gray.600' }}
-              _expanded={{ bg: 'gray.900' }}
-              _focus={{ bg: 'gray.600' }}
-            >
-              <UserProfile />
-            </MenuButton>
-            <MenuList bg="gray.900" borderWidth="2px" borderColor="gray.700">
-              <MenuItem _hover={{ bg: 'gray.700' }} _focus={{ bg: 'gray.700' }} onClick={() => dispatch(logout())}>
-                Logout
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </>
-      ) : (
-        <>
-          <Heading>musica</Heading>
-          <Spacer />
-          <Button colorScheme="green" size="md" onClick={() => loginAuthSpotify()}>
-            <HStack>
-              <Icon icon="akar-icons:spotify-fill" inline />
-              <Text>Login with Spotify</Text>
+    <>
+      <Center bg="blackAlpha.900" h="100px" color="gray.300" padding={{ base: '20px 40px' }}>
+        {isAuthenticated ? (
+          <>
+            <HStack spacing="24px">
+              <Heading color="gray.300">musica</Heading>
+              {isDesktop ? (<SearchBar />) : ''}
             </HStack>
-          </Button>
-        </>
-      )}
-    </Center>
+            <Spacer />
+            <Menu colorScheme="blackAlpha">
+              <MenuButton
+                as={isDesktop ? Button : IconButton}
+                aria-label="Options"
+                variant="ghost"
+                _hover={{ bg: 'gray.600' }}
+                _expanded={{ bg: 'gray.900' }}
+                _focus={{ bg: 'gray.600' }}
+              >
+                <UserProfile />
+              </MenuButton>
+              <MenuList bg="gray.900" borderWidth="2px" borderColor="gray.700">
+                <MenuItem _hover={{ bg: 'gray.700' }} _focus={{ bg: 'gray.700' }} onClick={() => dispatch(logout())}>
+                  Logout
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </>
+        ) : (
+          <>
+            <Heading>musica</Heading>
+            <Spacer />
+            <Button colorScheme="green" size="md" onClick={() => loginAuthSpotify()}>
+              <HStack>
+                <Icon icon="akar-icons:spotify-fill" inline />
+                <Text>{isDesktop ? 'Login with Spotify' : 'Login'}</Text>
+              </HStack>
+            </Button>
+          </>
+        )}
+      </Center>
+      {!isDesktop && isAuthenticated ? (
+        <Center bg="blackAlpha.900" h="100px" color="gray.300" padding="0 20px 20px">
+          <SearchBar />
+        </Center>
+      ) : ''}
+    </>
   );
 };
 

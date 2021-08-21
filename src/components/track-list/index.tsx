@@ -7,21 +7,18 @@ interface TrackListProps {
 }
 
 const TrackList = ({ data }: TrackListProps) => {
-  const { handleTrackSelect, isTrackSelected } = usePlaylist();
+  const { handleTrackSelect } = usePlaylist();
 
   return (
-    <>
-      <div className={styles.container}>
-        {data.map((track: Track) => (
-          <TrackCard
-            data={track}
-            key={track.uri}
-            handleSelect={handleTrackSelect}
-            isSelected={isTrackSelected(track)}
-          />
-        ))}
-      </div>
-    </>
+    <div className={styles.container}>
+      {data.map((track: Track) => (
+        <TrackCard
+          data={track}
+          key={track.uri}
+          handleSelect={handleTrackSelect}
+        />
+      ))}
+    </div>
   );
 };
 

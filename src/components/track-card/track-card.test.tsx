@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import TrackCard from 'components/track-card';
+import { Provider } from 'react-redux';
+import { store } from 'store';
 
-global.matchMedia =
-  global.matchMedia ||
-  function () {
+global.matchMedia = global.matchMedia
+  || function () {
     return {
       addListener: jest.fn(),
-      removeListener: jest.fn(),
+      removeListener: jest.fn()
     };
   };
 
@@ -41,25 +42,24 @@ const track = {
   uri: 'spotify:track:2s0t2naULr7BLrLGjoKu98'
 };
 
-test('card component rendered properly', async () => {
+test('track card component rendered properly', async () => {
+  const handleSelect = jest.fn();
   render(
-    <TrackCard
-      data={track}
-      key={track.uri}
-      handleSelect={(track) => {
-        console.log(track.uri);
-      }}
-      isSelected
-    />
+    <Provider store={store}>
+      <TrackCard
+        data={track}
+        key={track.uri}
+        handleSelect={handleSelect}
+      />
+    </Provider>
   );
 
   const trackName = screen.getByTestId('track-name');
   const selectTrackButton = screen.getByText(/Select/i);
   expect(trackName).toBeVisible();
-  expect(trackName).toHaveTextContent(track.album.name);
+  expect(trackName).toHaveTextContent(track.name);
   expect(selectTrackButton).toBeVisible();
 
-  const consoleSpy = jest.spyOn(console, "log");
   userEvent.click(selectTrackButton);
-  expect(consoleSpy).toHaveBeenCalledWith(track.uri);
+  expect(handleSelect).toHaveBeenCalledWith(track);
 });

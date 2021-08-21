@@ -1,10 +1,12 @@
-import { Box, Button, Heading, Input, Text, VStack } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Heading, Input, Textarea, VStack } from '@chakra-ui/react';
+import SelectedTrackList from 'components/selected-track-list';
 import usePlaylist from 'lib/usePlaylist';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import styles from './CreatePlaylistForm.module.css';
 
 const CreatePlaylistForm = () => {
-  const user = useSelector((state: RootStateOrAny) => state.user);
+  const { data: user } = useSelector((state: RootStateOrAny) => state.user);
   const { selectedTracks } = useSelector((state: RootStateOrAny) => state.track);
   const { createPlaylist } = usePlaylist();
   const [form, setForm] = useState({
@@ -14,63 +16,55 @@ const CreatePlaylistForm = () => {
     collaborative: false
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createPlaylist({ id: user.data.id }, form);
+    createPlaylist({ id: user.id }, form);
   };
   return (
-    <VStack m="4" alignItems="start" spacing="5">
-      <form id="createPlaylist" onSubmit={handleSubmit}>
-        <Heading as="h3" size="sm">
-          Create a Playlist
-        </Heading>
-        <VStack spacing="3">
-          <div>
-            <label htmlFor="name">Name:</label>
+    <VStack alignItems="start" spacing="7" position="sticky" top="6">
+      <form id="createPlaylist" onSubmit={handleSubmit} className={styles.form}>
+        <VStack spacing="5">
+          <Heading as="h3" size="sm">
+            Create your playlist
+          </Heading>
+          <FormControl id="name">
+            <FormLabel>Name</FormLabel>
             <Input
               type="text"
-              id="name"
               name="name"
               minLength={10}
               onChange={handleChange}
-              borderWidth="2px"
+              borderWidth="1px"
               borderColor="gray.700"
+              placeholder="the playlist name"
+              isRequired
             />
-          </div>
-          <div>
-            <label htmlFor="description">Description: </label>
-            <Input
-              type="text"
-              id="description"
+          </FormControl>
+          <FormControl id="description">
+            <FormLabel>Description</FormLabel>
+            <Textarea
               name="description"
+              placeholder="the playlist description"
               minLength={20}
               onChange={handleChange}
-              borderWidth="2px"
+              borderWidth="1px"
               borderColor="gray.700"
+              isRequired
             />
-          </div>
-          <Button colorScheme="green" type="submit" form="createPlaylist">
+          </FormControl>
+          <Button colorScheme="green" type="submit" form="createPlaylist" w="full" isDisabled={selectedTracks.length === 0}>
             Create
           </Button>
         </VStack>
       </form>
-      <Box>
-        <Heading as="h3" size="sm">
-          Selected Tracks:
-        </Heading>
-        <Box>
-          {selectedTracks.map((track: Track) => (
-            <Box width="240px">
-              <Text isTruncated>{track.name}</Text>
-            </Box>
-          ))}
-        </Box>
-      </Box>
+      <SelectedTrackList data={selectedTracks} />
     </VStack>
   );
 };

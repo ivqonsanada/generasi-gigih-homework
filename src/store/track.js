@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   selectedTracks: [],
-  tracks: []
+  tracks: [],
+  next: ''
 };
 
 export const trackSlice = createSlice({
@@ -10,7 +11,9 @@ export const trackSlice = createSlice({
   initialState,
   reducers: {
     updateTracks: (state, action) => {
-      state.tracks = action.payload;
+      const { tracks, nextRoute } = action.payload;
+      state.tracks = tracks;
+      state.next = nextRoute;
     },
     updateSelectedTracks: (state, action) => {
       state.selectedTracks = action.payload;
@@ -21,6 +24,7 @@ export const trackSlice = createSlice({
   }
 });
 
-export const { updateTracks, updateSelectedTracks, clearSelectedTracks } = trackSlice.actions;
+export const {
+  updateTracks, updateSelectedTracks, clearSelectedTracks } = trackSlice.actions;
 
 export default trackSlice.reducer;

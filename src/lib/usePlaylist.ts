@@ -1,17 +1,13 @@
 import { useToast } from '@chakra-ui/react';
-import {
-  createNewPlaylist as createNewPlaylistAPI,
-  storeTracksToNewPlaylist
-} from 'api/spotify';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { clearSelectedTracks, updateSelectedTracks } from 'store/track';
+import useSpotify from './useSpotify';
 
 const usePlaylist = () => {
   const dispatch = useDispatch();
   const toast = useToast();
-  const { selectedTracks } = useSelector(
-    (state: RootStateOrAny) => state.track
-  );
+  const { createNewPlaylist: createNewPlaylistAPI, storeTracksToNewPlaylist } = useSpotify();
+  const { selectedTracks } = useSelector((state: RootStateOrAny) => state.track);
 
   const addTrack = (track: Track) => {
     dispatch(updateSelectedTracks([...selectedTracks, track]));
@@ -39,10 +35,7 @@ const usePlaylist = () => {
       .then(({ data }) => {
         const playlistId = data.id;
         const selectedTracksUris = selectedTracks.map((e: Track) => e.uri);
-        return storeTracksToNewPlaylist(
-          { id: playlistId },
-          { uris: selectedTracksUris }
-        );
+        return storeTracksToNewPlaylist({ id: playlistId }, { uris: selectedTracksUris });
       })
       .then(() => {
         dispatch(clearSelectedTracks());
