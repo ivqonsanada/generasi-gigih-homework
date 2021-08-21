@@ -7,11 +7,12 @@ import { login, storeUserData } from 'store/user';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import PrivateRoute from 'components/private-route';
 import { useAxios } from 'lib/useAxios';
-import { getProfile } from 'api/spotify';
 import { getAccessTokenFromURL } from 'api/auth';
+import useSpotify from 'lib/useSpotify';
 
 function App() {
   const dispatch = useDispatch();
+  const { getProfile } = useSpotify();
 
   useAxios();
 

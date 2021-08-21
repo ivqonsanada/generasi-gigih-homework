@@ -9,6 +9,6 @@ test('renders react app properly', () => {
       <App />
     </Provider>
   );
-  const title = screen.getByText('Lets music make your day');
+  const title = screen.getByText('Let the music go brr');
   expect(title).toBeVisible();
 });
