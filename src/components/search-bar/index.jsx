@@ -15,7 +15,7 @@ const SearchBar = () => {
     const options = {
       q: query,
       type: 'track',
-      limit: 1
+      limit: 20
     };
     getSearchTracks(options).then(async ({ data }) => {
       if (query !== '') {
