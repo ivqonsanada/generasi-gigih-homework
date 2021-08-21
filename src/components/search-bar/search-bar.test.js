@@ -1,6 +1,10 @@
 import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { Provider } from 'react-redux';
+import { store } from 'store';
+import SearchBar from '.';
 
 const params = new URLSearchParams({
   q: 'tangan manusiap',
@@ -103,3 +107,13 @@ afterEach(() => server.resetHandlers());
 
 // Disable API mocking after the tests are done.
 afterAll(() => server.close());
+
+test('search bar component rendered properly', async () => {
+  render(
+    <Provider store={store}>
+      <SearchBar />
+    </Provider>
+  );
+
+  expect(screen.getByPlaceholderText(/find your true music/i)).toBeVisible();
+});
